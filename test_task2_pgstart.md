@@ -85,7 +85,7 @@ explain analyze select max(t2.day) from t2 left join t1 on t2.t_id = t1.id and t
 --  Execution Time: 4647.760 ms
 -- (13 rows)
 ```
-Я использовала индекс с классом оператов `text_pattern_ops`, чтобы `like` смог проводить по нему фильтрацию.
+Я использовала индекс с классом операторов `text_pattern_ops`, чтобы `like` смог проводить по нему фильтрацию.
 
 Время выполнения улучшилось, но это оказался мой потолок. 
 
@@ -145,7 +145,7 @@ explain analyze select max(t2.day) from t2 where not exists (select *  from t1 w
 Потом я увеличивала `effective_cache_size` до 8GB и  `work_mem` до 128 MB, что повлияло абсолютно никак. Делала индекс из поля `t2.day`, чтобы в целом ускорить агрегацию (ничего не поменялось).
 
 И разочарованно решила, что объединение таблиц нам вообще *не нужно*, так как именно этот процесс и занимает всё время.
-```
+```sql
 create index t2_day on t2 (day); analyze t2;
 --CREATE INDEX
 --ANALYZE
